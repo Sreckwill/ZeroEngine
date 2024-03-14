@@ -55,8 +55,12 @@ unsigned int Shaders::CreateShaderProgram(std::string& vertexShader, std::string
     if (!success) {
         glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
         std::cerr << "Shader program linking failed:\n" << infoLog << std::endl;
+        glDeleteShader(vshader);
+        glDeleteShader(fshader);
+        glDeleteProgram(shaderProgram);
         return -1;
     }
-
+    glDeleteShader(vshader);
+    glDeleteShader(fshader);
     return shaderProgram;
 }
