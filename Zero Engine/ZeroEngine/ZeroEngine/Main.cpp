@@ -10,22 +10,7 @@
 
 int main() {
 
-    Shaders shaders;
-
-    std::string filename = "vertexShader.shader";
-    std::string shaderSource = shaders.readShaderFile(filename);
-    if (shaderSource.empty()) {
-        std::cerr << "Failed to read vertex shader source." << std::endl;
-        return -1;
-    }
-
-    std::string filename1 = "fragmentShader.shader";
-    std::string shaderSource1 = shaders.readShaderFile(filename1);
-    if (shaderSource1.empty()) {
-        std::cerr << "Failed to read fragment shader source." << std::endl;
-        return -1;
-    }
-
+    
     if (!glfwInit()) {
         return -1;
     }
@@ -72,9 +57,28 @@ int main() {
         ib.Bind();
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-        glBindVertexArray(0);
+       
+        Shaders shaders;
+
+        std::string filename = "vertexShader.shader";
+        std::string shaderSource = shaders.readShaderFile(filename);
+        if (shaderSource.empty()) {
+            std::cerr << "Failed to read vertex shader source." << std::endl;
+            return -1;
+        }
+
+        std::string filename1 = "fragmentShader.shader";
+        std::string shaderSource1 = shaders.readShaderFile(filename1);
+        if (shaderSource1.empty()) {
+            std::cerr << "Failed to read fragment shader source." << std::endl;
+            return -1;
+        }
 
         unsigned int shaderProgram = shaders.CreateShaderProgram(shaderSource, shaderSource1);
+        glUseProgram(shaderProgram);
+        shaders.SetUniformLoaction4f(shaderProgram, 0.1f, 0.1f, 1.0f, 1.0f);
+
+        glBindVertexArray(0);
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT);

@@ -32,6 +32,7 @@ unsigned int Shaders::compileShader(unsigned int type, const std::string& source
     if (!success) {
         glGetShaderInfoLog(shader, 512, nullptr, infoLog);
         std::cerr << "Shader compilation failed:\n" << infoLog << std::endl;
+        glDeleteShader(shader);
         return 0;
     }
 
@@ -44,7 +45,7 @@ unsigned int Shaders::CreateShaderProgram(std::string& vertexShader, std::string
     unsigned int fshader = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
 
 
-    unsigned int shaderProgram = glCreateProgram();
+    shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vshader);
     glAttachShader(shaderProgram, fshader);
     glLinkProgram(shaderProgram);
@@ -63,4 +64,10 @@ unsigned int Shaders::CreateShaderProgram(std::string& vertexShader, std::string
     glDeleteShader(vshader);
     glDeleteShader(fshader);
     return shaderProgram;
+}
+
+void Shaders::SetUniformLoaction4f(unsigned int shaderProgram, float r, float g, float b, float a)
+{
+    int Loaction = glGetUniformLocation(shaderProgram, "_Color");
+    glUniform4f(Loaction, r,g,b,a);
 }
