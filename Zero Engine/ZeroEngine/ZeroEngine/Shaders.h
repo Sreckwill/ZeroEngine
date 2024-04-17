@@ -19,6 +19,6 @@ public:
 	unsigned int CreateShaderProgram(std::string& vertexShader, std::string& fragmentShader);
 	//funtion for setting the Uniform varaiable 
 	void SetUniformLoaction4f(unsigned int shaderProgram, float r, float g, float b, float a);
-
+	
 };
 

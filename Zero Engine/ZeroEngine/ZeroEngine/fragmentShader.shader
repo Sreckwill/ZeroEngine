@@ -1,7 +1,7 @@
 #version 330 core
-out vec4 Color;
-uniform vec4 _Color;
+out vec4 FragColor;
+uniform vec4 _color; // Use 'color' instead of '_Color'
 void main()
 {
-    Color=_Color;
+    FragColor = _color; // Use 'color' instead of '_Color'
 }

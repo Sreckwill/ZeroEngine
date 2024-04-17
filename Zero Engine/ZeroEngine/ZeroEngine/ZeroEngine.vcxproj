@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentShader.shader" />
+    <None Include="imgui.ini" />
     <None Include="vertexShader.shader" />
   </ItemGroup>
   <ItemGroup>

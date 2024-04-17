@@ -3,6 +3,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_impl_glfw.h"
+#include "ImGui/imgui_impl_opengl2.h"
+#include "ImGui/imgui_impl_opengl3.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "Shaders.h"
@@ -97,22 +101,72 @@ int main() {
         unsigned int shaderProgram = shaders.CreateShaderProgram(shaderSource, shaderSource1);
         //use the shaderProgra,
         glUseProgram(shaderProgram);
+
+        float color[4] = { 0.5f, 0.5f, 1.0f, 1.0f };
         //Setting the Color of the Square by Uniform varaiable
-        shaders.SetUniformLoaction4f(shaderProgram, 0.1f, 0.1f, 1.0f, 1.0f);
+        shaders.SetUniformLoaction4f(shaderProgram, color[0], color[1], color[2], color[3]);
         //unbinding the Vertex Array
         glBindVertexArray(0);
-        //Loop for the rendereing the Square
+
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        ImGui::StyleColorsDark();
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init("#version 330"); 
+
+       
+       
+        // Inside your main loop
         while (!glfwWindowShouldClose(window)) {
+            // Start ImGui frame
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+
+            // Clear the screen
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(1.0f, 0.5f, 1.0f, 0.5f);
+
+            // Bind vertex array and shader program
             glBindVertexArray(vao);
             glUseProgram(shaderProgram);
+
+            // Draw OpenGL geometry
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+            // Pass color value to shader
+            shaders.SetUniformLoaction4f(shaderProgram, color[0], color[1], color[2], color[3]); // Assuming your shader program is named 'shaders'
+
+            // ImGui rendering
+            ImGui::Begin("Window");
+            ImGui::Text("hello");
+            ImGui::ColorEdit4("Color", color);
+            ImGui::End();
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+            // Unbind resources
             glBindVertexArray(0);
+            glUseProgram(0);
+
+            // Swap buffers and poll events
             glfwSwapBuffers(window);
             glfwPollEvents();
+
+            // Check for OpenGL errors
+            GLenum error = glGetError();
+            if (error != GL_NO_ERROR) {
+                std::cerr << "OpenGL error: " << error << std::endl;
+            }
         }
+
     }
+    //Destroying or shadown the ImGui
+    ImGui_ImplGlfw_Shutdown();
+    ImGui_ImplOpenGL3_Shutdown();   
+    ImGui::DestroyContext();
+
     //Termating the GLFW
     glfwTerminate();
     return 0;

@@ -55,6 +55,7 @@
   <ItemGroup>
     <None Include="vertexShader.shader" />
     <None Include="fragmentShader.shader" />
+    <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VertexBuffer.h">

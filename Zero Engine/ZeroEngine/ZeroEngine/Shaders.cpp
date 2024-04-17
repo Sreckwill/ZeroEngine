@@ -94,10 +94,12 @@ unsigned int Shaders::CreateShaderProgram(std::string& vertexShader, std::string
 void Shaders::SetUniformLoaction4f(unsigned int shaderProgram, float r, float g, float b, float a)
 {
     //Getting the loaction from the Shader
-    int location = glGetUniformLocation(shaderProgram, "_Color");
+    int location = glGetUniformLocation(shaderProgram, "_color");
     //Setting the color to the square
-    glUniform4f(location, 1.0f, 1.0f, 1.0f, 1.0f);
+    glUniform4f(location, r, g, b, a);
 }
+
+
 
 
 
