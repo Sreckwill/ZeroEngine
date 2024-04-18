@@ -104,7 +104,16 @@ int main() {
 
         float color[4] = { 0.5f, 0.5f, 1.0f, 1.0f };
         //Setting the Color of the Square by Uniform varaiable
+         //or
+        //  //Pass color value to shader
         shaders.SetUniformLoaction4f(shaderProgram, color[0], color[1], color[2], color[3]);
+
+        //size for the square
+        float size = 1.0f;
+        //Setting the Size of the Square by Uniform varaiable 
+        //or
+        //  //Pass size value to shader
+        shaders.SetunifromLoaction1f(shaderProgram, size);
         //unbinding the Vertex Array
         glBindVertexArray(0);
 
@@ -136,12 +145,15 @@ int main() {
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
             // Pass color value to shader
-            shaders.SetUniformLoaction4f(shaderProgram, color[0], color[1], color[2], color[3]); // Assuming your shader program is named 'shaders'
+            shaders.SetUniformLoaction4f(shaderProgram, color[0], color[1], color[2], color[3]);
+            //Pass size value to shader
+            shaders.SetunifromLoaction1f(shaderProgram, size);
 
             // ImGui rendering
             ImGui::Begin("Window");
             ImGui::Text("hello");
             ImGui::ColorEdit4("Color", color);
+            ImGui::SliderFloat("Size", &size, 0.5f, 2.0f);
             ImGui::End();
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

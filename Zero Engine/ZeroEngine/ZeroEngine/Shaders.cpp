@@ -99,6 +99,15 @@ void Shaders::SetUniformLoaction4f(unsigned int shaderProgram, float r, float g,
     glUniform4f(location, r, g, b, a);
 }
 
+void Shaders::SetunifromLoaction1f(unsigned int shaderProgram,float size)
+{
+    //Getting the loaction from the Shader
+    int location = glGetUniformLocation(shaderProgram, "_size");
+    //Setting the size to the square
+    glUniform1f(location, size);
+}
+
+
 
 
 

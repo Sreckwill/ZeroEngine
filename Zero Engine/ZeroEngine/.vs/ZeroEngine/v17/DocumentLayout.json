@@ -11,12 +11,16 @@
       "RelativeMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|solutionrelative:ZeroEngine\\Shaders.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\vertexShader.shader||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|solutionrelative:ZeroEngine\\vertexShader.shader||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\fragmentShader.shader||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|solutionrelative:ZeroEngine\\fragmentShader.shader||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\vertexShader.shader||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|solutionrelative:ZeroEngine\\vertexShader.shader||{3B902123-F8A7-4915-9F01-361F908088D0}"
+      "AbsoluteMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\Shaders.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|solutionrelative:ZeroEngine\\Shaders.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\VertexBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -33,10 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\IndexBuffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|solutionrelative:ZeroEngine\\IndexBuffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\Shaders.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7334B1AA-93C2-4D50-9DFB-AB25C775C9CF}|ZeroEngine\\ZeroEngine.vcxproj|solutionrelative:ZeroEngine\\Shaders.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -56,7 +56,7 @@
               "RelativeDocumentMoniker": "ZeroEngine\\Main.cpp",
               "ToolTip": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\Main.cpp",
               "RelativeToolTip": "ZeroEngine\\Main.cpp",
-              "ViewState": "AQIAACAAAAAAAAAAAAAowIsAAAAAAAAA",
+              "ViewState": "AQIAAFwAAAAAAAAAAAAowGsAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-11T20:51:39.28Z",
               "IsPinned": true,
@@ -70,27 +70,27 @@
               "RelativeDocumentMoniker": "ZeroEngine\\Shaders.cpp",
               "ToolTip": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\Shaders.cpp",
               "RelativeToolTip": "ZeroEngine\\Shaders.cpp",
-              "ViewState": "AQIAAFMAAAAAAAAAAAAowGAAAAA5AAAA",
+              "ViewState": "AQIAAFoAAAAAAAAAAAAYwGgAAAA5AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-14T19:21:58.421Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
               "Title": "Shaders.h",
               "DocumentMoniker": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\Shaders.h",
               "RelativeDocumentMoniker": "ZeroEngine\\Shaders.h",
               "ToolTip": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\Shaders.h",
               "RelativeToolTip": "ZeroEngine\\Shaders.h",
-              "ViewState": "AQIAAAIAAAAAAAAAAAAowBgAAAAAAAAA",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAowBUAAABAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-03-14T19:21:50.12Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "IndexBuffer.cpp",
               "DocumentMoniker": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\IndexBuffer.cpp",
               "RelativeDocumentMoniker": "ZeroEngine\\IndexBuffer.cpp",
@@ -98,12 +98,11 @@
               "RelativeToolTip": "ZeroEngine\\IndexBuffer.cpp",
               "ViewState": "AQIAAAUAAAAAAAAAAAAowBsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-03-12T14:33:14.53Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-12T14:33:14.53Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "IndexBuffer.h",
               "DocumentMoniker": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\IndexBuffer.h",
               "RelativeDocumentMoniker": "ZeroEngine\\IndexBuffer.h",
@@ -111,12 +110,11 @@
               "RelativeToolTip": "ZeroEngine\\IndexBuffer.h",
               "ViewState": "AQIAAAEAAAAAAAAAAAAowBcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-03-12T14:32:10.786Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-12T14:32:10.786Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "VertexBuffer.cpp",
               "DocumentMoniker": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\VertexBuffer.cpp",
               "RelativeDocumentMoniker": "ZeroEngine\\VertexBuffer.cpp",
@@ -124,12 +122,11 @@
               "RelativeToolTip": "ZeroEngine\\VertexBuffer.cpp",
               "ViewState": "AQIAAAUAAAAAAAAAAAAowBsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-03-12T14:26:13.986Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-12T14:26:13.986Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "VertexBuffer.h",
               "DocumentMoniker": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\VertexBuffer.h",
               "RelativeDocumentMoniker": "ZeroEngine\\VertexBuffer.h",
@@ -142,7 +139,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "fragmentShader.shader",
               "DocumentMoniker": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\fragmentShader.shader",
               "RelativeDocumentMoniker": "ZeroEngine\\fragmentShader.shader",
@@ -155,13 +152,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "vertexShader.shader",
               "DocumentMoniker": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\vertexShader.shader",
               "RelativeDocumentMoniker": "ZeroEngine\\vertexShader.shader",
               "ToolTip": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\vertexShader.shader",
               "RelativeToolTip": "ZeroEngine\\vertexShader.shader",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAABAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAA7AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
               "WhenOpened": "2024-03-12T13:33:28.622Z",
               "EditorCaption": ""
