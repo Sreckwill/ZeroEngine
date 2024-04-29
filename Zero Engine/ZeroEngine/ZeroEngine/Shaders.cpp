@@ -1,6 +1,6 @@
 #include "Shaders.h"
 //funtion for the reading the .shader file for the Device
-std::string Shaders::readShaderFile(const std::string& filename)
+std::string Shaders::readShaderFile(const std::string& filename) 
 {
     //loadind the file from the Device
     std::ifstream file(filename);
@@ -22,7 +22,7 @@ std::string Shaders::readShaderFile(const std::string& filename)
     return shaderSource;
 }
 //function for creating and compile the Shader
-unsigned int Shaders::compileShader(unsigned int type, const std::string& source)
+unsigned int Shaders::compileShader(unsigned int type, const std::string& source) 
 {
     //creating the shader
     unsigned int shader = glCreateShader(type);
@@ -51,8 +51,8 @@ unsigned int Shaders::compileShader(unsigned int type, const std::string& source
     return shader;
 }
 //funtion for the creating the ShaderProgram
-unsigned int Shaders::CreateShaderProgram(std::string& vertexShader, std::string& fragmentShader)
-{
+unsigned int Shaders::CreateShaderProgram(std::string& vertexShader, std::string& fragmentShader) 
+{ 
     //Creating ther vertex Shader
     unsigned int vshader = compileShader(GL_VERTEX_SHADER, vertexShader);
     //creating the fragment Shader
@@ -91,7 +91,7 @@ unsigned int Shaders::CreateShaderProgram(std::string& vertexShader, std::string
     return shaderProgram;
 }
 //funtion for setting the Uniform varaiable 
-void Shaders::SetUniformLoaction4f(unsigned int shaderProgram, float r, float g, float b, float a)
+void Shaders::SetUniformLoaction4f(unsigned int shaderProgram, float r, float g, float b, float a) 
 {
     //Getting the loaction from the Shader
     int location = glGetUniformLocation(shaderProgram, "_color");
@@ -99,12 +99,19 @@ void Shaders::SetUniformLoaction4f(unsigned int shaderProgram, float r, float g,
     glUniform4f(location, r, g, b, a);
 }
 
-void Shaders::SetunifromLoaction1f(unsigned int shaderProgram,float size)
-{
+void Shaders::SetunifromLoaction1f(unsigned int shaderProgram,float size) 
+{ 
     //Getting the loaction from the Shader
     int location = glGetUniformLocation(shaderProgram, "_size");
     //Setting the size to the square
     glUniform1f(location, size);
+}
+
+void Shaders::SetunifromLoaction1i(unsigned int shaderProgram) 
+{
+    //Getting the loaction from the Shader
+    int location = glGetUniformLocation(shaderProgram, "ourTexture");
+    glUniform1i(location, 0);
 }
 
 

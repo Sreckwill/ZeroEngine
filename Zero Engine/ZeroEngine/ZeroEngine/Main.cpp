@@ -10,7 +10,7 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "Shaders.h"
-
+#include "Textures.h"
 
 int main() {
 
@@ -39,10 +39,10 @@ int main() {
     {
         //Positions of the Sqaure
         float positions[] = {
-            -0.5f, -0.5f,
-             0.5f, -0.5f,
-             0.5f,  0.5f,
-            -0.5f, 0.5f
+            -0.5f, -0.5f, 0.0f, 0.0f,
+             0.5f, -0.5f, 1.0f, 0.0f,
+             0.5f,  0.5f, 1.0f, 1.0f,
+            -0.5f,  0.5f, 0.0f, 1.0f
         };
 
         //Indices of the Square
@@ -66,10 +66,13 @@ int main() {
         //Giving the Data to the Buffer
         glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
         //VertexAttribPointer
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, (void*)0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)0);
         //Enableing Vertex Attrib Array
         glEnableVertexAttribArray(0);
-
+        //VertexAttribPointer
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)(2*sizeof(float)));
+        //Enableing Vertex Attrib Array
+        glEnableVertexAttribArray(1);
         //Creating the IndexBuffer Object
         IndexBuffer ib;
         //Binding the IndexBuffer
@@ -124,8 +127,8 @@ int main() {
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 330"); 
 
-       
-       
+        Textures textures("Texturs/solor.jpg");
+         
         // Inside your main loop
         while (!glfwWindowShouldClose(window)) {
             // Start ImGui frame
@@ -141,6 +144,10 @@ int main() {
             glBindVertexArray(vao);
             glUseProgram(shaderProgram);
 
+            //Bind the Texture
+            textures.ActiveTexure(GL_TEXTURE0);
+            textures.bind();
+
             // Draw OpenGL geometry
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
@@ -148,7 +155,8 @@ int main() {
             shaders.SetUniformLoaction4f(shaderProgram, color[0], color[1], color[2], color[3]);
             //Pass size value to shader
             shaders.SetunifromLoaction1f(shaderProgram, size);
-
+            //Pass the Texture
+            shaders.SetunifromLoaction1i(shaderProgram);
             // ImGui rendering
             ImGui::Begin("Window");
             ImGui::Text("hello");
