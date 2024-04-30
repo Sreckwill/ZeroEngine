@@ -64,7 +64,7 @@
               "RelativeDocumentMoniker": "ZeroEngine\\Main.cpp",
               "ToolTip": "F:\\Zero Engine\\ZeroEngine\\ZeroEngine\\Main.cpp",
               "RelativeToolTip": "ZeroEngine\\Main.cpp",
-              "ViewState": "AQIAAJMAAAAAAAAAAAAAAKAAAAAjAAAA",
+              "ViewState": "AQIAAIAAAAAAAAAAAAAswM8AAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-11T20:51:39.28Z",
               "IsPinned": true,
@@ -80,8 +80,7 @@
               "RelativeToolTip": "ZeroEngine\\Textures.cpp",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAABFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-04-29T02:05:01.448Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-29T02:05:01.448Z"
             },
             {
               "$type": "Document",
@@ -93,8 +92,7 @@
               "RelativeToolTip": "ZeroEngine\\Textures.h",
               "ViewState": "AQIAAAYAAAAAAAAAAAAAAA4AAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-04-29T02:04:38.606Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-29T02:04:38.606Z"
             },
             {
               "$type": "Document",
@@ -106,8 +104,7 @@
               "RelativeToolTip": "ZeroEngine\\Shaders.cpp",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-03-14T19:21:58.421Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-14T19:21:58.421Z"
             },
             {
               "$type": "Document",
@@ -119,8 +116,7 @@
               "RelativeToolTip": "ZeroEngine\\Shaders.h",
               "ViewState": "AQIAAAUAAAAAAAAAAAAswA4AAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-03-14T19:21:50.12Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-14T19:21:50.12Z"
             },
             {
               "$type": "Document",
@@ -132,8 +128,7 @@
               "RelativeToolTip": "ZeroEngine\\IndexBuffer.cpp",
               "ViewState": "AQIAABIAAAAAAAAAAAAAABoAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-03-12T14:33:14.53Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-12T14:33:14.53Z"
             },
             {
               "$type": "Document",
@@ -145,8 +140,7 @@
               "RelativeToolTip": "ZeroEngine\\IndexBuffer.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-03-12T14:32:10.786Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-12T14:32:10.786Z"
             },
             {
               "$type": "Document",
@@ -182,8 +176,7 @@
               "RelativeToolTip": "ZeroEngine\\fragmentShader.shader",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
-              "WhenOpened": "2024-03-12T13:35:27.311Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-12T13:35:27.311Z"
             },
             {
               "$type": "Document",
@@ -195,8 +188,7 @@
               "RelativeToolTip": "ZeroEngine\\vertexShader.shader",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
-              "WhenOpened": "2024-03-12T13:33:28.622Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-12T13:33:28.622Z"
             }
           ]
         }
