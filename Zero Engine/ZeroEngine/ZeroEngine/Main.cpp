@@ -11,7 +11,7 @@
 #include "IndexBuffer.h"
 #include "Shaders.h"
 #include "Textures.h"
-#include "Main.h"
+
 
 int main() {
 
@@ -131,6 +131,7 @@ int main() {
         Textures textures("Texturs/solor.jpg");
         
         
+
         // Inside your main loop
         while (!glfwWindowShouldClose(window)) {
             // Start ImGui frame
@@ -138,9 +139,23 @@ int main() {
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
+            if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            {
+                std::cout << "Key :" << "A" << std::endl;
+            }
+            if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+            {
+                std::cout << "Key :" << "S" << std::endl;
+            }
+            if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+            {
+                std::cout << "Key :" << "W" << std::endl;
+            }
+            if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            {
+                std::cout << "Key :" << "D" << std::endl;
+            }
 
-            KeyboardInput(window);
-            
             // Clear the screen
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(1.0f, 0.5f, 1.0f, 0.5f);
@@ -197,14 +212,3 @@ int main() {
     return 0;
 }
 
-void KeyboardInput(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        std::cout << "Key : " << "A" << std::endl;
-    }
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        std::cout << "Key : " << "S" << std::endl;
-    }
-}

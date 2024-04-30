@@ -164,7 +164,6 @@
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="IndexBuffer.h" />
-    <ClInclude Include="Main.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="VertexBuffer.h" />
