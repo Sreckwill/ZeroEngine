@@ -4,20 +4,24 @@ std::string Shaders::readShaderFile(const std::string& filename)
 {
     //loadind the file from the Device
     std::ifstream file(filename);
-    //checking the file is open or not
-    if (!file.is_open()) {
-        std::cerr << "Error: Could not open file " << filename << std::endl;
-        return "";
-    }
-
     std::string shaderSource;
     std::string line;
-    while (std::getline(file, line)) {
-        shaderSource += line + "\n";
+    try {
+        //checking the file is open or not
+        if (!file.is_open()) {
+            std::cerr << "Error: Could not open file " << filename << std::endl;
+            return "";
+        }
+        while (std::getline(file, line)) {
+            shaderSource += line + "\n";
+        }
+        //closing the file
+        file.close();
     }
-
-    //closing the file
-    file.close();
+    catch (std::exception ex)
+    {
+        std::cerr << "Error reading shader filename!" << std::endl;
+    }
     //return the file
     return shaderSource;
 }
