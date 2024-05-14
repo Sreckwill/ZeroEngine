@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_glfw.h"
 #include "ImGui/imgui_impl_opengl2.h"
@@ -12,7 +13,7 @@
 #include "Shaders.h"
 #include "Textures.h"
 
-
+void showFPS(GLFWwindow* window);
 int main() {
 
     //GLFW Init
@@ -134,6 +135,7 @@ int main() {
 
         // Inside your main loop
         while (!glfwWindowShouldClose(window)) {
+            showFPS(window);
             // Start ImGui frame
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
@@ -210,5 +212,31 @@ int main() {
     //Termating the GLFW
     glfwTerminate();
     return 0;
+}
+// Function to calculate and display FPS
+void showFPS(GLFWwindow* window)
+{
+    static double previousSeconds = 0.0;
+    static int frameCount = 0;
+    double elapsedSeconds;
+    double currentSeconds = glfwGetTime();
+    elapsedSeconds = currentSeconds - previousSeconds;
+
+    if (elapsedSeconds > 0.25)
+    {
+        previousSeconds = currentSeconds;
+        double fps = (double)frameCount / elapsedSeconds;
+        double msPerFrame = 1000.0 / fps;
+
+        std::ostringstream outs;
+        outs.precision(3);
+        outs << std::fixed << "Game World" << "  " << "FPS: "
+            << fps << "  " << "Frame Time: " << msPerFrame << " (ms)";
+        glfwSetWindowTitle(window, outs.str().c_str());
+        frameCount = 0;
+    }
+
+    frameCount++;
+
 }
 
