@@ -1,4 +1,5 @@
 #include "Shaders.h"
+
 //funtion for the reading the .shader file for the Device
 std::string Shaders::readShaderFile(const std::string& filename) 
 {
@@ -94,6 +95,15 @@ unsigned int Shaders::CreateShaderProgram(std::string& vertexShader, std::string
     glDeleteShader(fshader);
     return shaderProgram;
 }
+
+
+unsigned int Shaders::UseProgram(unsigned int shaderProgram)
+{
+    glUseProgram(shaderProgram);
+    return shaderProgram;
+}
+
+
 //funtion for setting the Uniform varaiable 
 void Shaders::SetUniformLoaction4f(unsigned int shaderProgram, float r, float g, float b, float a) 
 {

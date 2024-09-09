@@ -1,6 +1,5 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -10,9 +9,10 @@
 #include "ImGui/imgui_impl_opengl3.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "VertexArray.h"
 #include "Shaders.h"
 #include "Textures.h"
-
+#include "Camera.h"
 void showFPS(GLFWwindow* window);
 int main() {
 
@@ -53,17 +53,15 @@ int main() {
             0, 3, 2
         };
 
-        //Vertex Arrat 
-        unsigned int vao;
-        //Generating the Vertex Array
-        glGenVertexArrays(1, &vao);
-        //Binding the Vertex Array
-        glBindVertexArray(vao);
+        //Creating the Object for the Vertex Buffer
+        VertexBuffer vb;
+        //Bind the Vertex Buffer
+        vb.Bind();
 
         //Creating the Object for the Vertex Array
-        VertexBuffer vb;
+        VertexArray va;
         //Bind the Vertex Array
-        vb.Bind();
+        va.Bind();
 
         //Giving the Data to the Buffer
         glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
@@ -119,8 +117,10 @@ int main() {
         //or
         //  //Pass size value to shader
         shaders.SetunifromLoaction1f(shaderProgram, size);
-        //unbinding the Vertex Array
-        glBindVertexArray(0);
+
+        //unbinding the Vertex Buffer and Array
+        vb.UnBind();
+        va.UnBind();
 
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -131,40 +131,38 @@ int main() {
 
         Textures textures("Texturs/solor.jpg");
         
-        
-
+        Camera camera;
+        bool cameraEnabled = true; // Boolean to track if the camera is enabled
         // Inside your main loop
         while (!glfwWindowShouldClose(window)) {
             showFPS(window);
+            float deltaTime = 0.0f;
             // Start ImGui frame
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-            {
-                std::cout << "Key :" << "A" << std::endl;
-            }
-            if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-            {
-                std::cout << "Key :" << "S" << std::endl;
-            }
-            if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-            {
-                std::cout << "Key :" << "W" << std::endl;
-            }
-            if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-            {
-                std::cout << "Key :" << "D" << std::endl;
-            }
+            // Handle camera input only if cameraEnabled is true
+            if (cameraEnabled) {
+                if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+                    camera.ProcessKeyboard(GLFW_KEY_W, deltaTime);
+                }
 
+                if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+                    camera.ProcessKeyboard(GLFW_KEY_S, deltaTime);
+                if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+                    camera.ProcessKeyboard(GLFW_KEY_A, deltaTime);
+                if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+                    camera.ProcessKeyboard(GLFW_KEY_D, deltaTime);
+            }
             // Clear the screen
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(1.0f, 0.5f, 1.0f, 0.5f);
 
-            // Bind vertex array and shader program
-            glBindVertexArray(vao);
-            glUseProgram(shaderProgram);
+            // Bind vertex array, vertex Buffer and shader program
+            vb.Bind();
+            va.Bind();
+            shaders.UseProgram(shaderProgram);
 
             //Bind the Texture
             textures.ActiveTexure(GL_TEXTURE0);
@@ -179,18 +177,26 @@ int main() {
             shaders.SetunifromLoaction1f(shaderProgram, size);
             //Pass the Texture
             shaders.SetunifromLoaction1i(shaderProgram);
+
+            glm::mat4 view = camera.GetViewMatrix();
             // ImGui rendering
             ImGui::Begin("Window");
             ImGui::Text("hello");
             ImGui::ColorEdit4("Color", color);
             ImGui::SliderFloat("Size", &size, 0.5f, 2.0f);
+            // Add button to enable/disable the camera
+            if (ImGui::Button("Toggle Camera")) {
+                cameraEnabled = !cameraEnabled;
+            }
+            ImGui::Text("Camera is %s", cameraEnabled ? "ON" : "OFF");
             ImGui::End();
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
             // Unbind resources
-            glBindVertexArray(0);
-            glUseProgram(0);
+            va.UnBind();;
+            vb.UnBind();
+            shaders.UseProgram(0);
 
             // Swap buffers and poll events
             glfwSwapBuffers(window);
@@ -235,8 +241,6 @@ void showFPS(GLFWwindow* window)
         glfwSetWindowTitle(window, outs.str().c_str());
         frameCount = 0;
     }
-
     frameCount++;
-
 }
 

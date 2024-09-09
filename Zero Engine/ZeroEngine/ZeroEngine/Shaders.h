@@ -11,6 +11,8 @@ private:
 	//Storeing the ShaderProgram
 	unsigned int shaderProgram;
 public:
+
+	unsigned int UseProgram(unsigned int shaderProgram);
 	//funtion for the reading the .shader file for the Device
 	std::string readShaderFile(const std::string& filename);
 	//function for creating and compile the Shader
