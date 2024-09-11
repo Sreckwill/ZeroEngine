@@ -80,7 +80,7 @@
               "RelativeDocumentMoniker": "ZeroEngine\\Main.cpp",
               "ToolTip": "C:\\ZeroEngine\\ZeroEngine\\ZeroEngine\\ZeroEngine\\Main.cpp",
               "RelativeToolTip": "ZeroEngine\\Main.cpp",
-              "ViewState": "AQIAAJoAAAAAAAAAAAAawK8AAAAnAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-11T20:51:39.28Z",
               "IsPinned": true,
@@ -94,7 +94,7 @@
               "RelativeDocumentMoniker": "ZeroEngine\\Shaders.cpp",
               "ToolTip": "C:\\ZeroEngine\\ZeroEngine\\ZeroEngine\\ZeroEngine\\Shaders.cpp",
               "RelativeToolTip": "ZeroEngine\\Shaders.cpp",
-              "ViewState": "AQIAADMAAAAAAAAAAAAAAD8AAAAAAAAA",
+              "ViewState": "AQIAAFEAAAAAAAAAAAAAAGMAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-14T19:21:58.421Z",
               "EditorCaption": ""
@@ -107,7 +107,7 @@
               "RelativeDocumentMoniker": "ZeroEngine\\Shaders.h",
               "ToolTip": "C:\\ZeroEngine\\ZeroEngine\\ZeroEngine\\ZeroEngine\\Shaders.h",
               "RelativeToolTip": "ZeroEngine\\Shaders.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAsAAAA",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAA4AAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-03-14T19:21:50.12Z",
               "EditorCaption": ""
@@ -146,8 +146,7 @@
               "RelativeToolTip": "ZeroEngine\\Textures.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-04-29T02:04:38.606Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-29T02:04:38.606Z"
             },
             {
               "$type": "Document",
@@ -159,8 +158,7 @@
               "RelativeToolTip": "ZeroEngine\\Textures.cpp",
               "ViewState": "AQIAABsAAAAAAAAAAAAAADMAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-04-29T02:05:01.448Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-29T02:05:01.448Z"
             },
             {
               "$type": "Document",

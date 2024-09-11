@@ -95,10 +95,9 @@ unsigned int Shaders::CreateShaderProgram(std::string& vertexShader, std::string
     return shaderProgram;
 }
 
-unsigned int Shaders::UseProgram(unsigned int shaderProgram)
+void Shaders::UseProgram(unsigned int shaderProgram)
 {
     glUseProgram(shaderProgram);
-    return shaderProgram;
 }
 
 void Shaders::SetUniformLoaction(unsigned int shaderProgram, float r, float g, float b, float a, const char* name)
