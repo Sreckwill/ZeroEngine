@@ -109,14 +109,14 @@ int main() {
         //Setting the Color of the Square by Uniform varaiable
          //or
         //  //Pass color value to shader
-        shaders.SetUniformLoaction4f(shaderProgram, color[0], color[1], color[2], color[3]);
+        shaders.SetUniformLoaction(shaderProgram, color[0], color[1], color[2], color[3], "_color");
 
         //size for the square
         float size = 1.0f;
         //Setting the Size of the Square by Uniform varaiable 
         //or
         //  //Pass size value to shader
-        shaders.SetunifromLoaction1f(shaderProgram, size);
+        shaders.SetUnifromLoaction(shaderProgram, size, "_size");
 
         //unbinding the Vertex Buffer and Array
         vb.UnBind();
@@ -172,11 +172,11 @@ int main() {
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
             // Pass color value to shader
-            shaders.SetUniformLoaction4f(shaderProgram, color[0], color[1], color[2], color[3]);
+            shaders.SetUniformLoaction(shaderProgram, color[0], color[1], color[2], color[3], "_color");
             //Pass size value to shader
-            shaders.SetunifromLoaction1f(shaderProgram, size);
+            shaders.SetUnifromLoaction(shaderProgram, size, "_size");
             //Pass the Texture
-            shaders.SetunifromLoaction1i(shaderProgram);
+            shaders.SetUnifromLoaction(shaderProgram, "ourTexture");
 
             glm::mat4 view = camera.GetViewMatrix();
             // ImGui rendering

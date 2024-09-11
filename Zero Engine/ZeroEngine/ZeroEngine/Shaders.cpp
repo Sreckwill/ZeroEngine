@@ -52,7 +52,6 @@ unsigned int Shaders::compileShader(unsigned int type, const std::string& source
         glDeleteShader(shader);
         return 0;
     }
-
     return shader;
 }
 //funtion for the creating the ShaderProgram
@@ -96,36 +95,33 @@ unsigned int Shaders::CreateShaderProgram(std::string& vertexShader, std::string
     return shaderProgram;
 }
 
-
 unsigned int Shaders::UseProgram(unsigned int shaderProgram)
 {
     glUseProgram(shaderProgram);
     return shaderProgram;
 }
 
-
-//funtion for setting the Uniform varaiable 
-void Shaders::SetUniformLoaction4f(unsigned int shaderProgram, float r, float g, float b, float a) 
+void Shaders::SetUniformLoaction(unsigned int shaderProgram, float r, float g, float b, float a, const char* name)
 {
     //Getting the loaction from the Shader
-    int location = glGetUniformLocation(shaderProgram, "_color");
+    int location = glGetUniformLocation(shaderProgram, name);
     //Setting the color to the square
     glUniform4f(location, r, g, b, a);
 }
 
-void Shaders::SetunifromLoaction1f(unsigned int shaderProgram,float size) 
-{ 
-    //Getting the loaction from the Shader
-    int location = glGetUniformLocation(shaderProgram, "_size");
-    //Setting the size to the square
-    glUniform1f(location, size);
-}
-
-void Shaders::SetunifromLoaction1i(unsigned int shaderProgram) 
+void Shaders::SetUnifromLoaction(unsigned int shaderProgram,const char* name)
 {
     //Getting the loaction from the Shader
-    int location = glGetUniformLocation(shaderProgram, "ourTexture");
+    int location = glGetUniformLocation(shaderProgram, name);
     glUniform1i(location, 0);
+}
+
+void Shaders::SetUnifromLoaction(unsigned int shaderProgram, float size, const char* name)
+{
+    //Getting the loaction from the Shader
+    int location = glGetUniformLocation(shaderProgram, name);
+    //Setting the size to the square
+    glUniform1f(location, size);
 }
 
 
