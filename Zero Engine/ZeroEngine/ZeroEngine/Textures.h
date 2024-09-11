@@ -1,26 +1,22 @@
 #pragma once
-#include<GL/glew.h>
-#include<iostream>
+#include "GL/glew.h"
 #include <string>
-
+using std::string;
 class Textures {
 private:
-    //texture renderID;
-    unsigned int textureID;
-    //texture width, height and numChannels
-    int width, height, numChannels;
-
 public:
-    ////constructor for Assiging the Texture
-    Textures(const std::string& filepath);
-    //destructor for Deleting the Texture
-    ~Textures();
-    //Bind the Texture
-    void bind() const;
-    //Un Bind the Texture
-    void unbind() const;
-    //Active Texture
-    void ActiveTexure(GLenum Texture_no);
+	Textures();
+	virtual ~Textures();
+
+	bool LoadTexture(const string& fileName, bool generateMipMaps = true);
+	void Bind(GLuint texUnit = 0);
+	void UnBind(GLuint texUnit = 0);
+
+private:
+	Textures(const Textures& rhs) {}
+	Textures& operator = (const Textures& rhs) {}
+
+	unsigned int  mTexture;
  
 };
 

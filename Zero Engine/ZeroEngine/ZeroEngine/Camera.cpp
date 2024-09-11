@@ -1,73 +1,122 @@
-#include<iostream>
 #include "Camera.h"
-#include <glm/gtc/matrix_transform.hpp>
-#include <GLFW/glfw3.h>
-Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
-    : Front(glm::vec3(0.0f, 0.0f, -1.0f)),
-    MovementSpeed(2.5f),
-    MouseSensitivity(0.1f),
-    Zoom(45.0f)
+#include "glm/gtc/matrix_transform.hpp"
+
+// Default camera values
+const float DEF_FOV = 45.0f; // degrees
+
+
+Camera::Camera()
+	: mPosition(glm::vec3(0.0f, 0.0f, 0.0f)),
+	mTargetPos(glm::vec3(0.0f, 0.0f, 0.0f)),
+	mUp(glm::vec3(0.0f, 1.0f, 0.0f)),
+	mRight(0.0f, 0.0f, 0.0f),
+	WORLD_UP(0.0f, 1.0f, 0.0f),
+	mYaw(glm::pi<float>()),
+	mPitch(0.0f),
+	mFOV(DEF_FOV)
 {
-    Position = position;
-    WorldUp = up;
-    Yaw = yaw;
-    Pitch = pitch;
-    updateCameraVectors();
 }
 
-glm::mat4 Camera::GetViewMatrix() {
-    return glm::lookAt(Position, Position + Front, Up);
+glm::mat4 Camera::getViewMatrix()const
+{
+	return glm::lookAt(mPosition, mTargetPos, mUp);
 }
 
-void Camera::ProcessKeyboard(int direction, float deltaTime) {
-    float velocity = MovementSpeed * deltaTime;
-    if (direction == GLFW_KEY_W) {
-        std::cout << "Moving Forward. Position before: " << Position.x << ", " << Position.y << ", " << Position.z << std::endl;
-        Position += Front * velocity;
-        std::cout << "Position after: " << Position.x << ", " << Position.y << ", " << Position.z << std::endl;
-    }
-    if (direction == GLFW_KEY_S) {
-        std::cout << "Moving Backward. Position before: " << Position.x << ", " << Position.y << ", " << Position.z << std::endl;
-        Position -= Front * velocity;
-        std::cout << "Position after: " << Position.x << ", " << Position.y << ", " << Position.z << std::endl;
-    }
-    if (direction == GLFW_KEY_A)
-        Position -= Right * velocity;
-    if (direction == GLFW_KEY_D)
-        Position += Right * velocity;
+const glm::vec3& Camera::getLook() const
+{
+	return mLook;
 }
 
-void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch) {
-    xoffset *= MouseSensitivity;
-    yoffset *= MouseSensitivity;
 
-    Yaw += xoffset;
-    Pitch += yoffset;
-
-    if (constrainPitch) {
-        if (Pitch > 89.0f)
-            Pitch = 89.0f;
-        if (Pitch < -89.0f)
-            Pitch = -89.0f;
-    }
-
-    updateCameraVectors();
+const glm::vec3& Camera::getRight() const
+{
+	return mRight;
 }
 
-void Camera::ProcessMouseScroll(float yoffset) {
-    Zoom -= yoffset;
-    if (Zoom < 1.0f)
-        Zoom = 1.0f;
-    if (Zoom > 45.0f)
-        Zoom = 45.0f;
+const glm::vec3& Camera::getUp() const
+{
+	return mUp;
 }
 
-void Camera::updateCameraVectors() {
-    glm::vec3 front;
-    front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-    front.y = sin(glm::radians(Pitch));
-    front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-    Front = glm::normalize(front);
-    Right = glm::normalize(glm::cross(Front, WorldUp));
-    Up = glm::normalize(glm::cross(Right, Front));
+
+FPSCamera::FPSCamera(glm::vec3 position, float yaw, float pitch)
+{
+	mPosition = position;
+	mYaw = yaw;
+	mPitch = pitch;
+}
+
+void FPSCamera::setPosition(const glm::vec3& position)
+{
+	mPosition = position;
+}
+
+void FPSCamera::move(const glm::vec3& offsetPos)
+{
+	mPosition += offsetPos;
+	updateCameraVectors();
+}
+
+void FPSCamera::rotate(float yaw, float pitch)
+{
+	mYaw += glm::radians(yaw);
+	mPitch += glm::radians(pitch);
+
+	// Constrain the pitch
+	mPitch = glm::clamp(mPitch, -glm::pi<float>() / 2.0f + 0.1f, glm::pi<float>() / 2.0f - 0.1f);
+	updateCameraVectors();
+}
+
+
+void FPSCamera::updateCameraVectors()
+{
+	
+	glm::vec3 look;
+	look.x = cosf(mPitch) * sinf(mYaw);
+	look.y = sinf(mPitch);
+	look.z = cosf(mPitch) * cosf(mYaw);
+
+	mLook = glm::normalize(look);
+
+	
+	mRight = glm::normalize(glm::cross(mLook, WORLD_UP));
+	mUp = glm::normalize(glm::cross(mRight, mLook));
+
+	mTargetPos = mPosition + mLook;
+}
+
+
+OrbitCamera::OrbitCamera()
+	: mRadius(10.0f)
+{}
+
+void OrbitCamera::setLookAt(const glm::vec3& target)
+{
+	mTargetPos = target;
+}
+
+void OrbitCamera::setRadius(float radius)
+{
+	mRadius = glm::clamp(radius, 2.0f, 80.0f);
+}
+
+
+void OrbitCamera::rotate(float yaw, float pitch)
+{
+	mYaw = glm::radians(yaw);
+	mPitch = glm::radians(pitch);
+
+	mPitch = glm::clamp(mPitch, -glm::pi<float>() / 2.0f + 0.1f, glm::pi<float>() / 2.0f - 0.1f);
+
+	
+	updateCameraVectors();
+}
+
+
+void OrbitCamera::updateCameraVectors()
+{
+	
+	mPosition.x = mTargetPos.x + mRadius * cosf(mPitch) * sinf(mYaw);
+	mPosition.y = mTargetPos.y + mRadius * sinf(mPitch);
+	mPosition.z = mTargetPos.z + mRadius * cosf(mPitch) * cosf(mYaw);
 }

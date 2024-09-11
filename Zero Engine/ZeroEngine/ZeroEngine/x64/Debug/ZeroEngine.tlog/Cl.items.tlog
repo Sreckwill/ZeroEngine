@@ -9,6 +9,7 @@ C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\ImGui\imgui_tables.cpp;C:\ZeroEng
 C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\ImGui\imgui_widgets.cpp;C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\x64\Debug\imgui_widgets.obj
 C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\IndexBuffer.cpp;C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\x64\Debug\IndexBuffer.obj
 C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\Main.cpp;C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\x64\Debug\Main.obj
+C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\Mesh.cpp;C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\x64\Debug\Mesh.obj
 C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\Shaders.cpp;C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\x64\Debug\Shaders.obj
 C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\Textures.cpp;C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\x64\Debug\Textures.obj
 C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\VertexArray.cpp;C:\ZeroEngine\ZeroEngine\ZeroEngine\ZeroEngine\x64\Debug\VertexArray.obj

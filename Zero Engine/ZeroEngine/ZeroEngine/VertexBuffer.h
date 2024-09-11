@@ -1,7 +1,5 @@
 #pragma once
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
+#include "GL/glew.h"
 class VertexBuffer
 {
 private:
@@ -12,5 +10,8 @@ public:
 
 	void Bind() const;
 	void UnBind() const;
+
+	void GenBuffer();
+	void DeleteBuffer();
 };
 

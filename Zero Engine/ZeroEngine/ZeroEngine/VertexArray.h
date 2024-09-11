@@ -1,7 +1,5 @@
 #pragma once
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
+#include "GL/glew.h"
 class VertexArray
 {
 private:
@@ -12,5 +10,9 @@ public:
 
 	void Bind() const;
 	void UnBind() const;
+
+	void GenArray();
+	void DeleteArray();
+
 };
 

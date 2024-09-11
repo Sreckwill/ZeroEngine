@@ -1,14 +1,12 @@
 #include "VertexBuffer.h"
 
-VertexBuffer::VertexBuffer()
+VertexBuffer::VertexBuffer() :m_RenderID(0)
 {
-	glGenBuffers(1, &m_RenderID);
-	glBindBuffer(GL_ARRAY_BUFFER, m_RenderID);
 }
 
 VertexBuffer::~VertexBuffer()
 {
-	glDeleteBuffers(1, &m_RenderID);
+	DeleteBuffer();
 }
 
 void VertexBuffer::Bind() const
@@ -19,4 +17,14 @@ void VertexBuffer::Bind() const
 void VertexBuffer::UnBind() const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void VertexBuffer::GenBuffer()
+{
+	glGenBuffers(1, &m_RenderID);
+}
+
+void VertexBuffer::DeleteBuffer()
+{
+	glDeleteBuffers(1, &m_RenderID);
 }

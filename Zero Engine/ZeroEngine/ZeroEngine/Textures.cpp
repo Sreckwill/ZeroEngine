@@ -1,54 +1,86 @@
 #include "Textures.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-
-Textures::Textures(const std::string& filepath) : textureID(0), width(0), height(0), numChannels(0) {
-    //Gen and Bind the Texture
-    glGenTextures(1, &textureID);
-    glBindTexture(GL_TEXTURE_2D, textureID);
-
-    // Set texture parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    // Load texture data
-    stbi_set_flip_vertically_on_load(true);
-    unsigned char* data = stbi_load(filepath.c_str(), &width, &height, &numChannels, 0);
-    //checking the data
-    if (data) {
-        GLenum format = (numChannels == 3) ? GL_RGB : GL_RGBA; // Assuming RGB or RGBA texture
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else {
-        std::cerr << "Failed to load texture: " << filepath << std::endl;
-    }
-    //free the image
-    stbi_image_free(data);
-}
-
-Textures::~Textures() {
-    //Deleteing the Textur
-    glDeleteTextures(1, &textureID);
-}
-
-void Textures::bind() const {
-    // Bind the texture
-    glBindTexture(GL_TEXTURE_2D, textureID);
-}
-
-void Textures::unbind() const {
-    //un bind the texture
-    glBindTexture(GL_TEXTURE_2D, 0);
-}
-//glActiveTexture  that glActiveTexture 
-// is typically used when you have multiple
-//  texture units and need to specify which 
-// texture unit to make active before binding a texture to it.
-void Textures::ActiveTexure(GLenum Texture_no)
+#include <iostream>
+Textures::Textures() : mTexture(0)
 {
-    glActiveTexture(Texture_no);
 }
 
+Textures::~Textures()
+{
+	glDeleteTextures(1, &mTexture);
+}
+
+bool Textures::LoadTexture(const string& fileName, bool generateMipMaps)
+{
+	int width, height, components;
+
+	// Use stbi image library to load our image
+	unsigned char* imageData = stbi_load(fileName.c_str(), &width, &height, &components, STBI_rgb_alpha);
+
+	if (imageData == NULL)
+	{
+		std::cerr << "Error loading texture '" << fileName << "'" << std::endl;
+		return false;
+	}
+
+	// Invert image
+	int widthInBytes = width * 4;
+	unsigned char* top = NULL;
+	unsigned char* bottom = NULL;
+	unsigned char temp = 0;
+	int halfHeight = height / 2;
+	for (int row = 0; row < halfHeight; row++)
+	{
+		top = imageData + row * widthInBytes;
+		bottom = imageData + (height - row - 1) * widthInBytes;
+		for (int col = 0; col < widthInBytes; col++)
+		{
+			temp = *top;
+			*top = *bottom;
+			*bottom = temp;
+			top++;
+			bottom++;
+		}
+	}
+
+	glGenTextures(1, &mTexture);
+	glBindTexture(GL_TEXTURE_2D, mTexture); // all upcoming GL_TEXTURE_2D operations will affect our texture object (mTexture)
+
+	// Set the texture wrapping/filtering options (on the currently bound texture object)
+	// GL_CLAMP_TO_EDGE
+	// GL_REPEAT
+	// GL_MIRRORED_REPEAT
+	// GL_CLAMP_TO_BORDER
+	// GL_LINEAR
+	// GL_NEAREST
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+
+	if (generateMipMaps)
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+	stbi_image_free(imageData);
+	glBindTexture(GL_TEXTURE_2D, 0); // unbind texture when done so we don't accidentally mess up our mTexture
+
+	return true;
+}
+
+void Textures::Bind(GLuint texUnit)
+{
+
+	assert(texUnit >= 0 && texUnit < 32);
+
+	glActiveTexture(GL_TEXTURE0 + texUnit);
+	glBindTexture(GL_TEXTURE_2D, mTexture);
+}
+
+void Textures::UnBind(GLuint texUnit)
+{
+	glActiveTexture(GL_TEXTURE0 + texUnit);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}

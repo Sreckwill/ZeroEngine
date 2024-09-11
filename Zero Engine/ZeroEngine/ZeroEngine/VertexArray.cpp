@@ -1,14 +1,13 @@
 #include "VertexArray.h"
 
-VertexArray::VertexArray()
+VertexArray::VertexArray() :m_RenderID(0)
 {
-	glGenVertexArrays(1, &m_RenderID);
-	glBindVertexArray(m_RenderID);
+
 }
 
 VertexArray::~VertexArray()
 {
-	glDeleteVertexArrays(1, &m_RenderID);
+	DeleteArray();
 }
 
 void VertexArray::Bind() const
@@ -19,4 +18,14 @@ void VertexArray::Bind() const
 void VertexArray::UnBind() const
 {
 	glBindVertexArray(0);
+}
+
+void VertexArray::GenArray()
+{
+	glGenVertexArrays(1, &m_RenderID);
+}
+
+void VertexArray::DeleteArray()
+{
+	glDeleteVertexArrays(1, &m_RenderID);
 }

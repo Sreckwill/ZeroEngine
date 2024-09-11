@@ -17,7 +17,5 @@
 		void Bind() const;
 		//UnBind the IndexBuffer
 		void UnBind() const;
-	
-
 	};
 
