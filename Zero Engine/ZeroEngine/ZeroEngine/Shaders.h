@@ -5,6 +5,9 @@
 #include <fstream>
 #include <string>
 #include <glm/gtc/type_ptr.hpp>
+#include <map>
+#include <sstream>
+using std::string;
 
 //Class for the Shaders
 class Shaders
@@ -12,6 +15,7 @@ class Shaders
 private:
 	//Storeing the ShaderProgram
 	unsigned int shaderProgram;
+	std::map<string, int> UniformLocations;
 public:
 
 	void UseProgram(unsigned int shaderProgram);
@@ -21,6 +25,8 @@ public:
 	unsigned int compileShader(unsigned int type, const std::string& source);
 	//funtion for the creating the ShaderProgram
 	unsigned int CreateShaderProgram(std::string& vertexShader, std::string& fragmentShader);
+	//funtion for Getting the UnifromLocation
+	int GetUnifromLocation(const char* name);
 	//funtion for setting the Uniform varaiable 
 	void SetUniformLoaction(unsigned int shaderProgram, float r, float g, float b, float a, const  char* name);
 	void SetUnifromLoaction(unsigned int shaderProgram,const  char* name);

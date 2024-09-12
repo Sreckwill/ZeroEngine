@@ -39,18 +39,22 @@ unsigned int Shaders::compileShader(unsigned int type, const std::string& source
     glCompileShader(shader);
 
     int success;
-    char infoLog[512];
     //Getting the shaderiv and also the  COMPILE_STATUS using the enum GL_COMPILE_STATUS
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     //checking the it success or not
     if (!success) {
-        //getting the info log after it is not success
-        glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-        //giving the error where the error was coming 
-        std::cerr << "Shader compilation failed:\n" << infoLog << std::endl;
-        //Deleting the Shader
+        int length = 0;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+
+        // The length includes the NULL character
+        std::string errorLog(length, ' ');  // Resize and fill with space character
+        glGetShaderInfoLog(shader, length, &length, &errorLog[0]);
+
+        std::cerr << "Shader compilation failed:\n" << errorLog << std::endl;
+
+        // Deleting the Shader to clean up resources
         glDeleteShader(shader);
-        return 0;
+        return 0;  // or appropriate error code
     }
     return shader;
 }
@@ -94,6 +98,20 @@ unsigned int Shaders::CreateShaderProgram(std::string& vertexShader, std::string
     glDeleteShader(fshader);
     return shaderProgram;
 }
+//Getting the UnifromLocation
+int Shaders::GetUnifromLocation(const char* name)
+{
+    std::map<string, GLint>::iterator it = UniformLocations.find(name);
+
+    // Only need to query the shader program IF it doesn't already exist.
+    if (it == UniformLocations.end())
+    {
+        // Find it and add it to the map
+        UniformLocations[name] = glGetUniformLocation(shaderProgram, name);
+    }
+    // Return it
+    return UniformLocations[name];
+}
 
 void Shaders::UseProgram(unsigned int shaderProgram)
 {
@@ -103,7 +121,7 @@ void Shaders::UseProgram(unsigned int shaderProgram)
 void Shaders::SetUniformLoaction(unsigned int shaderProgram, float r, float g, float b, float a, const  char* name)
 {
     //Getting the loaction from the Shader
-    int location = glGetUniformLocation(shaderProgram, name);
+    int location = GetUnifromLocation(name);
     //Setting the color to the square
     glUniform4f(location, r, g, b, a);
 }
@@ -111,14 +129,14 @@ void Shaders::SetUniformLoaction(unsigned int shaderProgram, float r, float g, f
 void Shaders::SetUnifromLoaction(unsigned int shaderProgram,const  char* name)
 {
     //Getting the loaction from the Shader
-    int location = glGetUniformLocation(shaderProgram, name);
+    int location = GetUnifromLocation(name);
     glUniform1i(location, 0);
 }
 
 void Shaders::SetUnifromLoaction(unsigned int shaderProgram, float size, const  char* name)
 {
     //Getting the loaction from the Shader
-    int location = glGetUniformLocation(shaderProgram, name);
+    int location = GetUnifromLocation(name);
     //Setting the size to the square
     glUniform1f(location, size);
 }
@@ -126,7 +144,7 @@ void Shaders::SetUnifromLoaction(unsigned int shaderProgram, float size, const  
 void Shaders::SetunifromLoaction(unsigned int shaderPrgram, const glm::vec2& v, const  char* name)
 {
     //Getting the loaction from the Shader
-    int location = glGetUniformLocation(shaderProgram, name);
+    int location = GetUnifromLocation(name);
     //Setting the size to the square
     glUniform2f(location, v.x, v.y);
 }
@@ -134,7 +152,7 @@ void Shaders::SetunifromLoaction(unsigned int shaderPrgram, const glm::vec2& v, 
 void Shaders::SetunifromLoaction(unsigned int shaderPrgram, const glm::vec3& v, const  char* name)
 {
     //Getting the loaction from the Shader
-    int location = glGetUniformLocation(shaderProgram, name);
+    int location = GetUnifromLocation(name);
     //Setting the size to the square
     glUniform3f(location, v.x, v.y, v.z);
 }
@@ -142,7 +160,7 @@ void Shaders::SetunifromLoaction(unsigned int shaderPrgram, const glm::vec3& v, 
 void Shaders::SetunifromLoaction(unsigned int shaderPrgram, const glm::vec4& v, const  char* name)
 {
     //Getting the loaction from the Shader
-    int location = glGetUniformLocation(shaderProgram, name);
+    int location = GetUnifromLocation(name);
     //Setting the size to the square
     glUniform4f(location, v.x, v.y, v.z, v.w);
 }
@@ -150,7 +168,7 @@ void Shaders::SetunifromLoaction(unsigned int shaderPrgram, const glm::vec4& v, 
 void Shaders::SetunifromLoaction(unsigned int shaderPrgram, const glm::mat4& v, const  char* name)
 {
     //Getting the loaction from the Shader
-    int location = glGetUniformLocation(shaderProgram, name);
+    int location = GetUnifromLocation(name);
     //Setting the size to the square
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(v));
 }
