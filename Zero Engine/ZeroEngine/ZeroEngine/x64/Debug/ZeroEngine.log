@@ -1,6 +1,5 @@
-﻿  Main.cpp
-  Shaders.cpp
-  Generating Code...
-  ZeroEngine.vcxproj -> C:\ZeroEngine\ZeroEngine\ZeroEngine\x64\Debug\ZeroEngine.exe
+﻿  Mesh.cpp
+C:\ZeroEngine\ZeroEngineRep\ZeroEngine\Zero Engine\ZeroEngine\ZeroEngine\Mesh.cpp(143,49): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  ZeroEngine.vcxproj -> C:\ZeroEngine\ZeroEngineRep\ZeroEngine\Zero Engine\ZeroEngine\x64\Debug\ZeroEngine.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
