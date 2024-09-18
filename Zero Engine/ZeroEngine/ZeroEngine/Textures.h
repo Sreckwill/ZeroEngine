@@ -1,22 +1,25 @@
-#pragma once
+
+#ifndef TEXTURE2D_H
+#define TEXTURE2D_H
+
 #include "GL/glew.h"
 #include <string>
 using std::string;
-class Textures {
-private:
+
+class Texture
+{
 public:
-	Textures();
-	virtual ~Textures();
+	Texture();
+	virtual ~Texture();
 
-	bool LoadTexture(const string& fileName, bool generateMipMaps = true);
-	void Bind(GLuint texUnit = 0);
-	void UnBind(GLuint texUnit = 0);
+	bool loadTexture(const string& fileName, bool generateMipMaps = true);
+	void bind(unsigned int texUnit = 0);
+	void unbind(unsigned int texUnit = 0);
 
 private:
-	Textures(const Textures& rhs) {}
-	Textures& operator = (const Textures& rhs) {}
+	Texture(const Texture& rhs) {}
+	Texture& operator = (const Texture& rhs) {}
 
-	unsigned int  mTexture;
- 
+	unsigned int mTexture;
 };
-
+#endif 

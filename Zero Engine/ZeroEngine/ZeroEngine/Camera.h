@@ -1,5 +1,10 @@
+
+#ifndef CAMERA_H
+#define CAMERA_H
+
 #include "glm/glm.hpp"
 #include "glm/gtc/constants.hpp"
+
 
 class Camera
 {
@@ -13,6 +18,7 @@ public:
 	const glm::vec3& getLook() const;
 	const glm::vec3& getRight() const;
 	const glm::vec3& getUp() const;
+	const glm::vec3& getPosition() const;
 
 	float getFOV() const { return mFOV; }
 	void setFOV(float fov) { mFOV = fov; }		// in degrees
@@ -37,6 +43,7 @@ protected:
 	float mFOV; // degrees
 };
 
+
 class FPSCamera : public Camera
 {
 public:
@@ -51,7 +58,6 @@ private:
 
 	void updateCameraVectors();
 };
-
 
 
 class OrbitCamera : public Camera
@@ -73,3 +79,4 @@ private:
 	// Camera parameters
 	float mRadius;
 };
+#endif 

@@ -1,17 +1,21 @@
+
 #include "Textures.h"
+#include <iostream>
+#include <cassert>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-#include <iostream>
-Textures::Textures() : mTexture(0)
+
+Texture::Texture()
+	: mTexture(0)
 {
 }
 
-Textures::~Textures()
+Texture::~Texture()
 {
 	glDeleteTextures(1, &mTexture);
 }
 
-bool Textures::LoadTexture(const string& fileName, bool generateMipMaps)
+bool Texture::loadTexture(const string& fileName, bool generateMipMaps)
 {
 	int width, height, components;
 
@@ -65,21 +69,21 @@ bool Textures::LoadTexture(const string& fileName, bool generateMipMaps)
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(imageData);
-	glBindTexture(GL_TEXTURE_2D, 0); // unbind texture when done so we don't accidentally mess up our mTexture
+	glBindTexture(GL_TEXTURE_2D, 0); 
 
 	return true;
 }
 
-void Textures::Bind(GLuint texUnit)
+void Texture::bind(unsigned int texUnit)
 {
-
 	assert(texUnit >= 0 && texUnit < 32);
 
 	glActiveTexture(GL_TEXTURE0 + texUnit);
 	glBindTexture(GL_TEXTURE_2D, mTexture);
 }
 
-void Textures::UnBind(GLuint texUnit)
+
+void Texture::unbind(unsigned int texUnit)
 {
 	glActiveTexture(GL_TEXTURE0 + texUnit);
 	glBindTexture(GL_TEXTURE_2D, 0);

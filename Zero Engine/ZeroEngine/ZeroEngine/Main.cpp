@@ -5,28 +5,32 @@
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_glfw.h"
-#include "ImGui/imgui_impl_opengl2.h"
-#include "ImGui/imgui_impl_opengl3.h"
-#include "Shaders.h"
+#include "ShaderProgram.h"
 #include "Textures.h"
 #include "Camera.h"
 #include "Mesh.h"
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_impl_glfw.h"
+#include "ImGui/imgui_impl_opengl3.h"
+
+
 
 
 // Global Variables
-const char* APP_TITLE = "Game Engine";
+const char* APP_TITLE = "Introduction to Modern OpenGL - Multiple Lights";
 int gWindowWidth = 1024;
 int gWindowHeight = 768;
 GLFWwindow* gWindow = NULL;
 bool gWireframe = false;
-bool ghelp = false;
-
-FPSCamera fpsCamera(glm::vec3(0.0f, 3.0f, 10.0f));
+bool gFlashlightOn = true;
+glm::vec4 gClearColor(0.06f, 0.06f, 0.07f, 1.0f);
+bool showMyWindow = false;
+bool lightEnabled = false;
+FPSCamera fpsCamera(glm::vec3(0.0f, 3.5f, 10.0f));
 const double ZOOM_SENSITIVITY = -3.0;
 const float MOVE_SPEED = 5.0; // units per second
 const float MOUSE_SENSITIVITY = 0.1f;
+
 
 // Function prototypes
 void glfw_onKey(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -35,6 +39,7 @@ void glfw_onMouseScroll(GLFWwindow* window, double deltaX, double deltaY);
 void update(double elapsedTime);
 void showFPS(GLFWwindow* window);
 bool initOpenGL();
+void cleanup();
 
 int main()
 {
@@ -45,68 +50,70 @@ int main()
 		return -1;
 	}
 
-	//Creating the Shaders class Object
-	Shaders shaders;
-	//Getting the vertexShader code from the file
-	std::string filename = "vertexShader.shader";
-	//Storing the shaders.readShaderFile(filename) funtion to the string
-	std::string shaderSource = shaders.readShaderFile(filename);
-	//checking if it is empty or not
-	if (shaderSource.empty()) {
-		std::cerr << "Failed to read vertex shader source." << std::endl;
-		return -1;
-	}
-	//Getting the fragmentShader code from the file
-	std::string filename1 = "fragmentShader.shader";
-	//Storing the shaders.readShaderFile(filename) funtion to the string
-	std::string shaderSource1 = shaders.readShaderFile(filename1);
-	//checking if it is empty or not
-	if (shaderSource1.empty()) {
-		std::cerr << "Failed to read fragment shader source." << std::endl;
-		return -1;
-	}
-	//String the shaders.CreateShaderProgram(shaderSource, shaderSource1); fuction to the unsigned int shaderProgram 
-	unsigned int shaderProgram = shaders.CreateShaderProgram(shaderSource, shaderSource1);
+	ShaderProgram lightingShader;
+	lightingShader.loadShaders("shaders/lighting_dir_point_spot.vert", "shaders/lighting_dir_point_spot.frag");
 
 	// Load meshes and textures
-	const int numModels = 4;
+	const int numModels = 9;
 	Mesh mesh[numModels];
-	Textures texture[numModels];
+	Texture texture[numModels];
 
-	mesh[0].loadOBJ("models/crate.obj");
+	mesh[0].loadOBJ("models/barrel.obj");
 	mesh[1].loadOBJ("models/woodcrate.obj");
 	mesh[2].loadOBJ("models/robot.obj");
 	mesh[3].loadOBJ("models/floor.obj");
+	mesh[4].loadOBJ("models/bowling_pin.obj");
+	mesh[5].loadOBJ("models/bunny.obj");
+	mesh[6].loadOBJ("models/lampPost.obj");
+	mesh[7].loadOBJ("models/lampPost.obj");
+	mesh[8].loadOBJ("models/lampPost.obj");
 
-	texture[0].LoadTexture("textures/crate.jpg", true);
-	texture[1].LoadTexture("textures/woodcrate_diffuse.jpg", true);
-	texture[2].LoadTexture("textures/robot_diffuse.jpg", true);
-	texture[3].LoadTexture("textures/tile_floor.jpg", true);
+	texture[0].loadTexture("textures/barrel_diffuse.png", true);
+	texture[1].loadTexture("textures/woodcrate_diffuse.jpg", true);
+	texture[2].loadTexture("textures/robot_diffuse.jpg", true);
+	texture[3].loadTexture("textures/tile_floor.jpg", true);
+	texture[4].loadTexture("textures/AMF.tga", true);
+	texture[5].loadTexture("textures/bunny_diffuse.jpg", true);
+	texture[6].loadTexture("textures/lamp_post_diffuse.png", true);
+	texture[7].loadTexture("textures/lamp_post_diffuse.png", true);
+	texture[8].loadTexture("textures/lamp_post_diffuse.png", true);
 
 	// Model positions
 	glm::vec3 modelPos[] = {
-		glm::vec3(-2.5f, 1.0f, 0.0f),	// crate1
-		glm::vec3(2.5f, 1.0f, 0.0f),	// crate2
+		glm::vec3(-3.5f, 0.0f, 0.0f),	// barrel
+		glm::vec3(3.5f, 0.0f, 0.0f),	// crate
 		glm::vec3(0.0f, 0.0f, -2.0f),	// robot
-		glm::vec3(0.0f, 0.0f, 0.0f)		// floor
+		glm::vec3(0.0f, 0.0f, 0.0f),	// floor
+		glm::vec3(0.0f, 0.0f, 2.0f),	// pin
+		glm::vec3(-2.0f, 0.0f, 2.0f),	// bunny
+		glm::vec3(-5.5f, 0.0f, 0.0f),	// lamp post 1
+		glm::vec3(0.0f, 0.0f, 0.0f),	// lamp post 2
+		glm::vec3(5.5f, 0.0f, 0.0f)		// lamp post 2
 	};
 
 	// Model scale
 	glm::vec3 modelScale[] = {
-		glm::vec3(1.0f, 1.0f, 1.0f),	// crate1
-		glm::vec3(1.0f, 1.0f, 1.0f),	// crate2
+		glm::vec3(1.0f, 1.0f, 1.0f),	// barrel
+		glm::vec3(1.0f, 1.0f, 1.0f),	// crate
 		glm::vec3(1.0f, 1.0f, 1.0f),	// robot
-		glm::vec3(10.0f, 1.0f, 10.0f)	// floor
+		glm::vec3(10.0f, 1.0f, 10.0f),	// floor
+		glm::vec3(0.1f, 0.1f, 0.1f),	// pin
+		glm::vec3(0.7f, 0.7f, 0.7f),	// bunny
+		glm::vec3(1.0f, 1.0f, 1.0f),	// lamp post 1
+		glm::vec3(1.0f, 1.0f, 1.0f),	// lamp post 2
+		glm::vec3(1.0f, 1.0f, 1.0f)		// lamp post 3
 	};
 
+	// Point Light positions
+	glm::vec3 pointLightPos[3] = {
+		glm::vec3(-5.0f, 3.8f, 0.0f),
+		glm::vec3(0.5f,  3.8f, 0.0f),
+		glm::vec3(5.0f,  3.8,  0.0f)
+	};
+
+
 	double lastTime = glfwGetTime();
-	// Initialize ImGui
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	ImGui::StyleColorsDark();
-	ImGui_ImplGlfw_InitForOpenGL(gWindow, true);
-	ImGui_ImplOpenGL3_Init("#version 330");
+
 	// Rendering loop
 	while (!glfwWindowShouldClose(gWindow))
 	{
@@ -117,32 +124,46 @@ int main()
 
 		// Poll for and process events
 		glfwPollEvents();
+
+
+
 		update(deltaTime);
-		// Start the ImGui frame
+		// Start ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		// ImGui UI code
-		ImGui::Begin("Menu"); // Main Menu
 
-		// Child window for "Settings"
-		ImGui::BeginChild("Settings", ImVec2(0, 100), true); // Create a child with height of 100
-		ImGui::Text("Settings");
-		ImGui::Checkbox("Wireframe Mode", &gWireframe); // Settings-related checkbox
-		ImGui::EndChild(); // End "Settings" child
+		// Show window if enabled
+		if (showMyWindow)
+		{
+			ImGui::Begin("My ImGui Window", &showMyWindow);
+			ImGui::Text("This is my window!");
+			ImGui::End();
+		}
 
-		ImGui::Spacing(); // Optional: Adds spacing between the two child windows
+		// Set light properties based on whether the light is enabled
+		if (lightEnabled)
+		{
+			lightingShader.setUniform("sunLight.direction", glm::vec3(0.0f, -0.9f, -0.17f));
+			lightingShader.setUniform("sunLight.ambient", glm::vec3(0.1f, 0.1f, 0.1f));
+			lightingShader.setUniform("sunLight.diffuse", glm::vec3(0.1f, 0.1f, 0.1f)); // dark
+			lightingShader.setUniform("sunLight.specular", glm::vec3(0.1f, 0.1f, 0.1f));
+		}
+		else if (!lightEnabled)
+		{
+			// Set light to zero or some default "off" state
+			lightingShader.setUniform("sunLight.direction", glm::vec3(0.0f, 0.0f, 0.0f));
+			lightingShader.setUniform("sunLight.ambient", glm::vec3(0.0f, 0.0f, 0.0f));
+			lightingShader.setUniform("sunLight.diffuse", glm::vec3(0.0f, 0.0f, 0.0f));
+			lightingShader.setUniform("sunLight.specular", glm::vec3(0.0f, 0.0f, 0.0f));
+		}
+		// Render ImGui
+		ImGui::Render();
 
-		// Child window for "Help"
-		ImGui::BeginChild("Help", ImVec2(0, 100), true); // Create another child for "Help"
-		ImGui::Text("Help");
-		ImGui::Checkbox("Help", &ghelp); // Help-related checkbox
-		ImGui::EndChild(); // End "Help" child
 
-		
-		ImGui::End(); // End "Menu"
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		glm::mat4 model(1.0), view(1.0), projection(1.0);
 
 		// Create the View matrix
@@ -151,48 +172,99 @@ int main()
 		// Create the projection matrix
 		projection = glm::perspective(glm::radians(fpsCamera.getFOV()), (float)gWindowWidth / (float)gWindowHeight, 0.1f, 200.0f);
 
+		// update the view (camera) position
+		glm::vec3 viewPos;
+		viewPos.x = fpsCamera.getPosition().x;
+		viewPos.y = fpsCamera.getPosition().y;
+		viewPos.z = fpsCamera.getPosition().z;
+
+
 		// Must be called BEFORE setting uniforms because setting uniforms is done
 		// on the currently active shader program.
-		shaders.UseProgram(shaderProgram);
+		lightingShader.use();
+		lightingShader.setUniform("model", glm::mat4(1.0));  // do not need to translate the models so just send the identity matrix
+		lightingShader.setUniform("view", view);
+		lightingShader.setUniform("projection", projection);
+		lightingShader.setUniform("viewPos", viewPos);
 
-		// Pass the matrices to the shader
-		shaders.SetunifromLoaction(shaderProgram, view, "view");
-		shaders.SetunifromLoaction(shaderProgram, projection, "projection");
-		
+
+
+		// Point Light 1
+		lightingShader.setUniform("pointLights[0].ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+		lightingShader.setUniform("pointLights[0].diffuse", glm::vec3(0.0f, 1.0f, 0.1f));	// green-ish light
+		lightingShader.setUniform("pointLights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		lightingShader.setUniform("pointLights[0].position", pointLightPos[0]);
+		lightingShader.setUniform("pointLights[0].constant", 1.0f);
+		lightingShader.setUniform("pointLights[0].linear", 0.22f);
+		lightingShader.setUniform("pointLights[0].exponent", 0.20f);
+
+		// Point Light 2
+		lightingShader.setUniform("pointLights[1].ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+		lightingShader.setUniform("pointLights[1].diffuse", glm::vec3(1.0f, 0.1f, 0.0f));	// red-ish light
+		lightingShader.setUniform("pointLights[1].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		lightingShader.setUniform("pointLights[1].position", pointLightPos[1]);
+		lightingShader.setUniform("pointLights[1].constant", 1.0f);
+		lightingShader.setUniform("pointLights[1].linear", 0.22f);
+		lightingShader.setUniform("pointLights[1].exponent", 0.20f);
+
+		// Point Light 3
+		lightingShader.setUniform("pointLights[2].ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+		lightingShader.setUniform("pointLights[2].diffuse", glm::vec3(0.0f, 0.1f, 1.0f));	// blue-ish light
+		lightingShader.setUniform("pointLights[2].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		lightingShader.setUniform("pointLights[2].position", pointLightPos[2]);
+		lightingShader.setUniform("pointLights[2].constant", 1.0f);
+		lightingShader.setUniform("pointLights[2].linear", 0.22f);
+		lightingShader.setUniform("pointLights[2].exponent", 0.20f);
+
+		// Spot light
+		glm::vec3 spotlightPos = fpsCamera.getPosition();
+
+		// offset the flash light down a little
+		spotlightPos.y -= 0.5f;
+
+		lightingShader.setUniform("spotLight.ambient", glm::vec3(0.1f, 0.1f, 0.1f));
+		lightingShader.setUniform("spotLight.diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+		lightingShader.setUniform("spotLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		lightingShader.setUniform("spotLight.position", spotlightPos);
+		lightingShader.setUniform("spotLight.direction", fpsCamera.getLook());
+		lightingShader.setUniform("spotLight.cosInnerCone", glm::cos(glm::radians(15.0f)));
+		lightingShader.setUniform("spotLight.cosOuterCone", glm::cos(glm::radians(20.0f)));
+		lightingShader.setUniform("spotLight.constant", 1.0f);
+		lightingShader.setUniform("spotLight.linear", 0.07f);
+		lightingShader.setUniform("spotLight.exponent", 0.017f);
+		lightingShader.setUniform("spotLight.on", gFlashlightOn);
 
 		// Render the scene
 		for (int i = 0; i < numModels; i++)
 		{
 			model = glm::translate(glm::mat4(1.0), modelPos[i]) * glm::scale(glm::mat4(1.0), modelScale[i]);
-			shaders.SetunifromLoaction(shaderProgram, model, "model");
+			lightingShader.setUniform("model", model);
 
-			texture[i].Bind(0);		// set the texture before drawing.  Our simple OBJ mesh loader does not do materials yet.
+			// Set material properties
+			lightingShader.setUniform("material.ambient", glm::vec3(0.1f, 0.1f, 0.1f));
+			lightingShader.setUniformSampler("material.diffuseMap", 0);
+			lightingShader.setUniform("material.specular", glm::vec3(0.8f, 0.8f, 0.8f));
+			lightingShader.setUniform("material.shininess", 32.0f);
+
+			texture[i].bind(0);		// set the texture before drawing.  Our simple OBJ mesh loader does not do materials yet.
 			mesh[i].draw();			// Render the OBJ mesh
-			texture[i].UnBind(0);
-			
+			texture[i].unbind(0);
 		}
-		// Rendering ImGui
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 		// Swap front and back buffers
 		glfwSwapBuffers(gWindow);
 
 		lastTime = currentTime;
 	}
-	// Cleanup ImGui
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
-	glfwTerminate();
+
+	cleanup();
 
 	return 0;
 }
 
-
 bool initOpenGL()
 {
-	// Intialize GLFW 
-	// GLFW is configured.  Must be called before calling any GLFW functions
+	
 	if (!glfwInit())
 	{
 		// An error occured
@@ -226,6 +298,13 @@ bool initOpenGL()
 		return false;
 	}
 
+	// Initialize ImGui
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui_ImplGlfw_InitForOpenGL(gWindow, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
+	ImGui::StyleColorsDark();
+
 	// Set the required callback functions
 	glfwSetKeyCallback(gWindow, glfw_onKey);
 	glfwSetFramebufferSizeCallback(gWindow, glfw_onFramebufferSize);
@@ -235,7 +314,7 @@ bool initOpenGL()
 	glfwSetInputMode(gWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPos(gWindow, gWindowWidth / 2.0, gWindowHeight / 2.0);
 
-	glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
+	glClearColor(gClearColor.r, gClearColor.g, gClearColor.b, gClearColor.a);
 
 	// Define the viewport dimensions
 	glViewport(0, 0, gWindowWidth, gWindowHeight);
@@ -246,13 +325,12 @@ bool initOpenGL()
 	return true;
 }
 
-
 void glfw_onKey(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
-	if (key == GLFW_KEY_4 && action == GLFW_PRESS)
+	if (key == GLFW_KEY_F1 && action == GLFW_PRESS)
 	{
 		gWireframe = !gWireframe;
 		if (gWireframe)
@@ -261,15 +339,19 @@ void glfw_onKey(GLFWwindow* window, int key, int scancode, int action, int mode)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
-	if (key == GLFW_KEY_F1 && action == GLFW_PRESS)
+	if (key == GLFW_KEY_F && action == GLFW_PRESS)
 	{
-		ghelp = !ghelp;
-		if (ghelp)
-			std::cout << "Enter";
-		else
-			std::cout << "Exit";
+		// toggle the flashlight
+		gFlashlightOn = !gFlashlightOn;
 	}
-	
+	if (action == GLFW_PRESS)
+	{
+		if (key == GLFW_KEY_E)
+		{
+			showMyWindow = !showMyWindow; // Toggle window visibility
+			lightEnabled = !lightEnabled;
+		}
+	}
 }
 
 void glfw_onFramebufferSize(GLFWwindow* window, int width, int height)
@@ -318,17 +400,18 @@ void update(double elapsedTime)
 
 	// Up/down
 	if (glfwGetKey(gWindow, GLFW_KEY_Z) == GLFW_PRESS)
-		fpsCamera.move(MOVE_SPEED * (float)elapsedTime * fpsCamera.getUp());
+		fpsCamera.move(MOVE_SPEED * (float)elapsedTime * glm::vec3(0.0f, 1.0f, 0.0f));
 	else if (glfwGetKey(gWindow, GLFW_KEY_X) == GLFW_PRESS)
-		fpsCamera.move(MOVE_SPEED * (float)elapsedTime * -fpsCamera.getUp());
+		fpsCamera.move(MOVE_SPEED * (float)elapsedTime * -glm::vec3(0.0f, 1.0f, 0.0f));
 }
+
 
 void showFPS(GLFWwindow* window)
 {
 	static double previousSeconds = 0.0;
 	static int frameCount = 0;
 	double elapsedSeconds;
-	double currentSeconds = glfwGetTime(); // returns number of seconds since GLFW started, as double float
+	double currentSeconds = glfwGetTime(); 
 
 	elapsedSeconds = currentSeconds - previousSeconds;
 
@@ -353,4 +436,12 @@ void showFPS(GLFWwindow* window)
 	}
 
 	frameCount++;
+}
+void cleanup()
+{
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
+	glfwDestroyWindow(gWindow);
 }

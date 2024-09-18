@@ -1,4 +1,4 @@
-#pragma once
+#ifndef VERTEBUFFER_H
 #include "GL/glew.h"
 class VertexBuffer
 {
@@ -14,4 +14,7 @@ public:
 	void GenBuffer();
 	void DeleteBuffer();
 };
+#endif // !VERTEBUFFER_H
+
+
 

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VertexArray
+
 #include "GL/glew.h"
 class VertexArray
 {
@@ -15,4 +16,8 @@ public:
 	void DeleteArray();
 
 };
+
+#endif // !VertexArray
+
+
 
