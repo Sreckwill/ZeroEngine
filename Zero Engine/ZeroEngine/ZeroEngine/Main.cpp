@@ -262,6 +262,7 @@ int main()
 	return 0;
 }
 
+//Init OpenGl
 bool initOpenGL()
 {
 	
